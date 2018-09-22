@@ -110,12 +110,13 @@ while True:
 		addrto = target["latitude"]
 		if target["MeteringMode"] & 2:
 			addrto = data[target["latitude"]]
+
 		if target["command"] == "substitution":
 			data[addrto] = target["width"] * target["height"]
 		elif target["command"] == "input":
 			data[addrto] = ord(sys.stdin.buffer.read(1))
 		elif target["command"] == "output":
-			sys.stdout.write(chr(data[addrfrom]).encode("ascii"))
+			sys.stdout.buffer.write(chr(data[addrfrom]).encode("ascii"))
 		elif target["command"] == "addition":
 			data[addrto] += data[addrfrom]
 		elif target["command"] == "substraction":
