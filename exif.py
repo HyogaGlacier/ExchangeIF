@@ -84,30 +84,38 @@ with zipfile.ZipFile(path) as zipObj:
 
 curTime = min(programs.keys())
 times = sorted(list(programs.keys()))
+
+
 def getNextTime(curTime):
 	if curTime >= max(programs.keys()):
 		return None
 	return times[bisect.bisect_right(times, curTime)]
+
+
 data = {}
 
 while True:
 	target = programs[curTime][0]
 	if target["DateTime"] != target["DateTimeOriginal"]:
-		curTime = target["DateTime"]
-		time.sleep(abs((curTime - target["DateTimeOriginal"]).total_seconds())/20)
+		addrfrom = target["longitude"]
+		if target["MeteringMode"] & 1:
+			addrfrom = data[target["longitude"]]
+		if data[addrfrom] >= 0:
+			curTime = target["DateTime"]
+			time.sleep(abs((curTime - target["DateTimeOriginal"]).total_seconds()) / 20)
 	else:
 		addrfrom = target["longitude"]
-		if target["MeteringMode"]&1:
+		if target["MeteringMode"] & 1:
 			addrfrom = data[target["longitude"]]
 		addrto = target["latitude"]
-		if target["MeteringMode"]&2:
+		if target["MeteringMode"] & 2:
 			addrto = data[target["latitude"]]
 		if target["command"] == "substitution":
 			data[addrto] = target["width"] * target["height"]
 		elif target["command"] == "input":
 			data[addrto] = ord(sys.stdin.buffer.read(1))
 		elif target["command"] == "output":
-			sys.stdout.buffer.write(chr(data[addrfrom]).encode("ascii"))
+			sys.stdout.write(chr(data[addrfrom]).encode("ascii"))
 		elif target["command"] == "addition":
 			data[addrto] += data[addrfrom]
 		elif target["command"] == "substraction":
