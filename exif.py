@@ -8,8 +8,6 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 
 argv = sys.argv
-if len(argv) < 2:
-    print("Usage: python exif.py [filename]")
 path = argv[1]
 
 programs = {}
