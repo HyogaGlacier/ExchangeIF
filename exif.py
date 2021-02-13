@@ -55,10 +55,8 @@ with zipfile.ZipFile(path) as zipObj:
 			elif TAGS.get(key, key) == "ExifImageWidth":
 				width = val
 			elif TAGS.get(key, key) == "GPSInfo":
-				lat = (1 if val[1] == "N" else - 1) * (1.0 * val[2][0][0] /
-													   val[2][0][1] + 1.0 / 60 * val[2][1][0] / val[2][1][1])
-				lng = (1 if val[3] == "E" else - 1) * (1.0 * val[4][0][0] /
-													   val[4][0][1] + 1.0 / 60 * val[4][1][0] / val[4][1][1])
+				lat = (1 if val[1] == "N" else - 1) * (1.0 * val[2][0] + 1.0 / 60 * val[2][1])
+				lng = (1 if val[3] == "E" else - 1) * (1.0 * val[4][0] + 1.0 / 60 * val[4][1])
 		if DateTimeOriginal in programs:
 			programs[DateTimeOriginal].append({"DateTimeOriginal": DateTimeOriginal,
 											   "DateTime": DateTime,
