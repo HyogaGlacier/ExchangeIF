@@ -118,7 +118,7 @@ while True:
 			data[addrto] += data[addrfrom]
 		elif target["command"] == "substraction":
 			data[addrto] -= data[addrfrom]
-		elif target["command"] == "multiplicatoin":
+		elif target["command"] == "multiplication":
 			data[addrto] *= data[addrfrom]
 		elif target["command"] == "division":
 			data[addrto] //= data[addrfrom]
